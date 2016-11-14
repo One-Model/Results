@@ -52,6 +52,22 @@ namespace OneModel.Results
         }
 
         /// <summary>
+        /// Adds a warning to this result set.
+        /// </summary>
+        public void AddWarning(string message)
+        {
+            _messages.Add(new Message(Severity.Warning, message));
+        }
+
+        /// <summary>
+        /// Adds an error to this result set.
+        /// </summary>
+        public void AddError(string message)
+        {
+            _messages.Add(new Message(Severity.Error, message));
+        }
+
+        /// <summary>
         /// Adds a sequence of messages to this result set.
         /// </summary>
         public void AddRange(params Message[] messages)

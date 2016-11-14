@@ -39,5 +39,49 @@ namespace OneModel.Results.Tests
                 i => Assert.Same(a, i),
                 i => Assert.Same(b, i));
         }
+
+        [Fact]
+        public void Value_Results_Can_Be_Anded_With_Valueless_Results()
+        {
+            var a = new Result<int>(1);
+            var b = new Result();
+
+            var actual = a & b;
+            
+            Assert.Equal(1, actual.Value);
+        }
+
+        [Fact]
+        public void Valueless_Results_Can_Be_Anded_With_Value_Results()
+        {
+            var a = new Result();
+            var b = new Result<int>(1);
+
+            var actual = a & b;
+
+            Assert.Equal(1, actual.Value);
+        }
+
+        [Fact]
+        public void Value_Results_Can_Be_Anded_With_Value_Results()
+        {
+            var a = new Result<int>(0);
+            var b = new Result<int>(1);
+
+            var actual = a.And(b);
+
+            Assert.Equal(0, actual.Value);
+        }
+
+        [Fact]
+        public void Value_Results_Can_Be_Anded_With_Value_Results_2()
+        {
+            var a = new Result<int>(1);
+            var b = new Result<int>(2);
+
+            var actual = a.And(b, (x,y) => x + y);
+
+            Assert.Equal(3, actual.Value);
+        }
     }
 }
