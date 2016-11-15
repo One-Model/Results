@@ -56,7 +56,7 @@ namespace OneModel.Results
         /// </summary>
         public void AddWarning(string message)
         {
-            _messages.Add(new Message(Severity.Warning, message));
+            Add(new Message(Severity.Warning, message));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace OneModel.Results
         /// </summary>
         public void AddError(string message)
         {
-            _messages.Add(new Message(Severity.Error, message));
+            Add(new Message(Severity.Error, message));
         }
 
         /// <summary>
