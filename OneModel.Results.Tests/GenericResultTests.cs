@@ -83,5 +83,29 @@ namespace OneModel.Results.Tests
 
             Assert.Equal(3, actual.Value);
         }
+        
+        [Fact]
+        public void Ok_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result<int>.Empty();
+            Assert.True(actual.IsValid);
+            Assert.Empty(actual.Messages);
+        }
+
+        [Fact]
+        public void Error_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result<int>.Error("test");
+            Assert.False(actual.IsValid);
+            Assert.NotEmpty(actual.Messages);
+        }
+
+        [Fact]
+        public void Warning_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result<int>.Warning("test");
+            Assert.True(actual.IsValid);
+            Assert.NotEmpty(actual.Messages);
+        }
     }
 }

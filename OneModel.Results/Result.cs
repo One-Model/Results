@@ -7,85 +7,29 @@ namespace OneModel.Results
     /// Represents the result of running an algorithm, where
     /// there is no return result other than some messages.
     /// </summary>
-    public class Result
+    public class Result : BaseResult
     {
-        private readonly List<Message> _messages;
-
         public Result()
         {
-            _messages = new List<Message>();
         }
 
-        public Result(IEnumerable<Message> messages) : this()
+        public Result(IEnumerable<Message> messages) : base(messages)
         {
-            AddRange(messages);
         }
 
-        public Result(params Message[] messages) : this()
+        public Result(params Message[] messages) : base(messages)
         {
-            AddRange(messages);
         }
-
+        
         /// <summary>
-        /// Whether this result is valid. True if there
-        /// are no Errors. False if there are 1 or more
-        /// Errors.
+        /// Returns a new Result&lt;T&gt; that includes all of the messages
+        /// from this Result, but with the specified value.
         /// </summary>
-        public bool IsValid { get; private set; } = true;
-
-        /// <summary>
-        /// The messages encountered during validation.
-        /// </summary>
-        public IReadOnlyList<Message> Messages => _messages;
-
-        /// <summary>
-        /// Adds a message to this result set.
-        /// </summary>
-        public void Add(Message message)
+        public Result<T> WithValue<T>(T value)
         {
-            if (message.Severity == Severity.Error)
-            {
-                IsValid = false;
-            }
-
-            _messages.Add(message);
+            return new Result<T>(value, Messages);
         }
-
-        /// <summary>
-        /// Adds a warning to this result set.
-        /// </summary>
-        public void AddWarning(string message)
-        {
-            Add(new Message(Severity.Warning, message));
-        }
-
-        /// <summary>
-        /// Adds an error to this result set.
-        /// </summary>
-        public void AddError(string message)
-        {
-            Add(new Message(Severity.Error, message));
-        }
-
-        /// <summary>
-        /// Adds a sequence of messages to this result set.
-        /// </summary>
-        public void AddRange(params Message[] messages)
-        {
-            AddRange((IEnumerable<Message>)messages);
-        }
-
-        /// <summary>
-        /// Adds a sequence of messages to this result set.
-        /// </summary>
-        public void AddRange(IEnumerable<Message> messages)
-        {
-            foreach (var message in messages)
-            {
-                Add(message);
-            }
-        }
-
+        
         /// <summary>
         /// Performs a logical AND between two results.
         /// </summary>
@@ -94,10 +38,21 @@ namespace OneModel.Results
             return new Result(a.Messages.Concat(b.Messages));
         }
 
-        public static bool operator true(Result a) => a.IsValid;
+        #region Named constructors
+        public static Result Error(string message)
+        {
+            return new Result(new Message(Severity.Error, message));
+        }
 
-        public static bool operator false(Result a) => !a.IsValid;
+        public static Result Empty()
+        {
+            return new Result();
+        }
 
-        public static implicit operator bool(Result a) => a.IsValid;
+        public static Result Warning(string message)
+        {
+            return new Result(new Message(Severity.Warning, message));
+        }
+        #endregion
     }
 }

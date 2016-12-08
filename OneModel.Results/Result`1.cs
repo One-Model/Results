@@ -8,7 +8,7 @@ namespace OneModel.Results
     /// Represents the result of running an algorithm, where
     /// there is a result of type T, and some messages.
     /// </summary>
-    public class Result<T> : Result
+    public class Result<T> : BaseResult
     {
         public Result()
         {
@@ -22,6 +22,7 @@ namespace OneModel.Results
 
         public Result(IEnumerable<Message> messages) : base(messages)
         {
+            Value = default(T);
         }
 
         public Result(T value, IEnumerable<Message> messages) : base(messages)
@@ -42,12 +43,6 @@ namespace OneModel.Results
         /// The value produced by the algorithm.
         /// </summary>
         public T Value { get; }
-
-        public static bool operator true(Result<T> a) => a.IsValid;
-
-        public static bool operator false(Result<T> a) => !a.IsValid;
-
-        public static implicit operator bool(Result<T> a) => a.IsValid;
 
         /// <summary>
         /// Performs a logical AND between two results.
@@ -78,10 +73,27 @@ namespace OneModel.Results
         /// <summary>
         /// Performs a logical AND between two results.
         /// </summary>
-        public Result<T> And(Result b)
+        public Result<T> And(BaseResult b)
         {
             var messages = Messages.Concat(b.Messages);
             return new Result<T>(Value, messages);
         }
+
+        #region Named constructors
+        public static Result<T> Error(string message)
+        {
+            return new Result<T>(default(T), new Message(Severity.Error, message));
+        }
+        
+        public static Result<T> Empty()
+        {
+            return new Result<T>(default(T));
+        }
+
+        public static Result<T> Warning(string message)
+        {
+            return new Result<T>(default(T), new Message(Severity.Warning, message));
+        }
+        #endregion
     }
 }

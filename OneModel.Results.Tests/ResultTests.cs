@@ -102,5 +102,40 @@ namespace OneModel.Results.Tests
                 i => Assert.Equal("c", i.Text),
                 i => Assert.Equal("d", i.Text));
         }
+
+        [Fact]
+        public void Ok_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result.Empty();
+            Assert.True(actual.IsValid);
+            Assert.Empty(actual.Messages);
+        }
+
+        [Fact]
+        public void Error_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result.Error("test");
+            Assert.False(actual.IsValid);
+            Assert.NotEmpty(actual.Messages);
+        }
+
+        [Fact]
+        public void Warning_Results_Can_Be_Created_Via_Named_Constructor()
+        {
+            var actual = Result.Warning("test");
+            Assert.True(actual.IsValid);
+            Assert.NotEmpty(actual.Messages);
+        }
+
+        [Fact]
+        public void WithValue_Returns_The_Correct_Result()
+        {
+            var input = Result.Error("test");
+            var actual = input.WithValue(4);
+
+            Assert.False(actual.IsValid);
+            Assert.Equal(4, actual.Value);
+            Assert.Equal(1, actual.Messages.Count);
+        }
     }
 }
