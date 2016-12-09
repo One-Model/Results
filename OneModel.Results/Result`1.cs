@@ -8,7 +8,7 @@ namespace OneModel.Results
     /// Represents the result of running an algorithm, where
     /// there is a result of type T, and some messages.
     /// </summary>
-    public class Result<T> : BaseResult
+    public class Result<T> : Result
     {
         public Result()
         {
@@ -43,23 +43,7 @@ namespace OneModel.Results
         /// The value produced by the algorithm.
         /// </summary>
         public T Value { get; }
-
-        /// <summary>
-        /// Performs a logical AND between two results.
-        /// </summary>
-        public static Result<T> operator &(Result<T> a, Result b)
-        {
-            return a.And(b);
-        }
-
-        /// <summary>
-        /// Performs a logical AND between two results.
-        /// </summary>
-        public static Result<T> operator &(Result a, Result<T> b)
-        {
-            return b.And(a);
-        }
-
+        
         /// <summary>
         /// Performs a logical AND between two results.
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using Xunit;
 
 namespace OneModel.Results.Tests
 {
@@ -39,29 +40,7 @@ namespace OneModel.Results.Tests
                 i => Assert.Same(a, i),
                 i => Assert.Same(b, i));
         }
-
-        [Fact]
-        public void Value_Results_Can_Be_Anded_With_Valueless_Results()
-        {
-            var a = new Result<int>(1);
-            var b = new Result();
-
-            var actual = a & b;
-            
-            Assert.Equal(1, actual.Value);
-        }
-
-        [Fact]
-        public void Valueless_Results_Can_Be_Anded_With_Value_Results()
-        {
-            var a = new Result();
-            var b = new Result<int>(1);
-
-            var actual = a & b;
-
-            Assert.Equal(1, actual.Value);
-        }
-
+        
         [Fact]
         public void Value_Results_Can_Be_Anded_With_Value_Results()
         {
@@ -106,6 +85,47 @@ namespace OneModel.Results.Tests
             var actual = Result<int>.Warning("test");
             Assert.True(actual.IsValid);
             Assert.NotEmpty(actual.Messages);
+        }
+
+        [Theory]
+        [MemberData(nameof(Anding_Results_Always_Results_In_Valueless_Results_Cases))]
+        public void Anding_Results_Always_Results_In_Valueless_Results(Result a, Result b)
+        {
+            var actual = a & b;
+            Assert.IsType<Result>(actual);
+        }
+
+        public static IEnumerable<object[]> Anding_Results_Always_Results_In_Valueless_Results_Cases()
+        {
+            yield return new object[]
+            {
+                new Result(),
+                new Result()
+            };
+
+            yield return new object[]
+            {
+                new Result<int>(),
+                new Result()
+            };
+
+            yield return new object[]
+            {
+                new Result(),
+                new Result<int>()
+            };
+
+            yield return new object[]
+            {
+                new Result<int>(),
+                new Result<int>()
+            };
+
+            yield return new object[]
+            {
+                new Result<string>(),
+                new Result<int>()
+            };
         }
     }
 }
