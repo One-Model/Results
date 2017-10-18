@@ -1,14 +1,15 @@
 -
-  version: 3.0.0-alpha2-master
+  version: 3.0.0-alpha3-master
   image: Visual Studio 2017
   configuration: Release
 
   branches:
       only:
         - master
-  
+  install:
+  - cmd: appveyor downloadfile https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe
   before_build:
-  - msbuild /t:restore Results.sln
+  - cmd: nuget restore
   build:
     publish_nuget: true
     verbosity: minimal
