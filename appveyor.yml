@@ -1,0 +1,29 @@
+-
+  version: 3.0.0-alpha1-master
+  image: Visual Studio 2017
+  configuration: Release
+
+  branches:
+      only:
+        - master
+  
+  before_build:
+  - cmd: nuget restore
+  build:
+    publish_nuget: true
+    verbosity: minimal
+
+  nuget:
+      account_feed: true
+      
+  test_script:
+    - cmd: >-
+        cd OneModel.Results.Tests
+
+        dotnet test
+
+  dotnet_csproj:
+      patch: true
+      file: '**\*.csproj'
+      version: '{version}'
+      package_version: '{version}'

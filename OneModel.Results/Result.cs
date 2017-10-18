@@ -20,7 +20,7 @@ namespace OneModel.Results
         public Result(params Message[] messages) : base(messages)
         {
         }
-        
+
         /// <summary>
         /// Returns a new Result&lt;T&gt; that includes all of the messages
         /// from this Result, but with the specified value.
@@ -29,7 +29,7 @@ namespace OneModel.Results
         {
             return new Result<T>(value, Messages);
         }
-        
+
         /// <summary>
         /// Performs a logical AND between two results.
         /// </summary>

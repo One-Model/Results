@@ -43,11 +43,11 @@ namespace OneModel.Results
         /// The value produced by the algorithm.
         /// </summary>
         public T Value { get; }
-        
+
         /// <summary>
         /// Performs a logical AND between two results.
         /// </summary>
-        public Result<TOut> And<TOther,TOut> (Result<TOther> b, Func<T, TOther, TOut> aggregator)
+        public Result<TOut> And<TOther, TOut>(Result<TOther> b, Func<T, TOther, TOut> aggregator)
         {
             var @out = aggregator(Value, b.Value);
             var messages = Messages.Concat(b.Messages);
@@ -68,7 +68,7 @@ namespace OneModel.Results
         {
             return new Result<T>(default(T), new Message(Severity.Error, message));
         }
-        
+
         public static Result<T> Empty()
         {
             return new Result<T>(default(T));

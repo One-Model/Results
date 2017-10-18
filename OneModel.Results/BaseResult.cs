@@ -15,7 +15,7 @@ namespace OneModel.Results
         {
             AddRange(messages);
         }
-        
+
         /// <summary>
         /// Whether this result is valid. True if there
         /// are no Errors. False if there are 1 or more
