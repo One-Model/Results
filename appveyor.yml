@@ -1,5 +1,5 @@
 -
-  version: 3.0.0-alpha5-master
+  version: 3.0.0-master
   image: Visual Studio 2017
   configuration: Release
 
