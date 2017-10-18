@@ -1,5 +1,5 @@
 -
-  version: 3.0.0-alpha3-master
+  version: 3.0.0-alpha5-master
   image: Visual Studio 2017
   configuration: Release
 
@@ -18,7 +18,7 @@
       account_feed: true
       
   test_script:
-    - cmd: dotnet test /OneModel.Results.Tests.csproj --no-build
+    - cmd: dotnet test OneModel.Results.Tests --no-build
 
   dotnet_csproj:
       patch: true
