@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/One-Model/Results</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/One-Model/Results/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
